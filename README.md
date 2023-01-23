@@ -2,6 +2,14 @@
 Function to predict peculiar velocities given RA (right ascension), Dec (declination), and *CMB-frame* redshift. All maps are in redshift-space.
 All maps are limited to z < 0.067 with a flag in the function for extrapolation option. Conversion from real-space to redshift space as well as 
 the extrapolation option are explained by [Carr et al. (2021)](https://ui.adsabs.harvard.edu/abs/2021arXiv211201471C).  
+
+This code was modified from its original version (Jan. 2023) by Lauren Aldoroty, with the following changes:
+1. The code is installable using `python setup.py install` or `pip install -e .`.
+2. Global variables are no longer defined. In its place, a class called `pv_object` contains the previously-defined global variables as attributes. 
+3. This README was edited accordingly. 
+
+The original location of this code is https://github.com/KSaid-1/pvhub. It is used in [this publication](https://arxiv.org/abs/2110.03487).
+
 ## Maps
 The number of each map is the corresponding flag in `pvhub.py`
 ### default
@@ -15,22 +23,23 @@ The PV maps are large files (156 MB each), so to properly clone this repository 
 ### Mac 
     brew install git-lfs
     git lfs install
-    git clone https://github.com/KSaid-1/pvhub.git
+    git clone https://github.com/laldoroty/pvhub.git
 ### Linux
     sudo apt install git-lfs
     git lfs install
-    git clone https://github.com/KSaid-1/pvhub.git
+    git clone https://github.com/laldoroty/pvhub.git
 ### Windows
 You can use the [GitHub Desktop](https://desktop.github.com/) GUI application or [Git for Windows](https://git-scm.com/download/win), both of which come with Git LFS. If not using a GUI, then continue as normal in Git Bash:
 
-    git clone https://github.com/KSaid-1/pvhub.git
+    git clone https://github.com/laldoroty/pvhub.git
 
 ## Running
-Simply `import pvhub` into your python code, execute the `choose_model()` function that accepts an integer from 0 to 3 for the maps as listed above, then run `calculate_pv()` with your RA, Dec and redshift:
+Simply `from pvhub import pv_object` into your python code, execute the `choose_model()` function that accepts an integer from 0 to 3 for the maps as listed above, then run `calculate_pv()` with your RA, Dec and redshift:
 
-    import pvhub
-    pvhub.choose_model(flag)
-    pv = pvhub.calculate_pv(RA, Dec, zcmb, extrapolation=True)
+    from pvhub import pv_object
+    pvobj = pv_object()
+    pvobj.choose_model(flag)
+    pv = pvobj.calculate_pv(RA, Dec, zcmb, extrapolation=True)
 
 A few examples of how to use this code are shown in `examples/example.py`. 
 We provide an example set of input objects in `examples/example.csv`. 
